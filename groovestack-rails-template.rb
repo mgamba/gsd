@@ -420,8 +420,7 @@ after_bundle do
 
   # Procfile.dev
   file "Procfile.dev" do
-    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev
-  web: bin/rails s"
+    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s"
   end
 
   # Procfile
