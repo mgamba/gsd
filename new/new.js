@@ -4,4 +4,4 @@ const path = require('path')
 const shell = require('shelljs')
 const directory = path.join(__dirname, '..')
 
-shell.exec(`${__dirname}/new-groovestack.sh ${process.argv[2]} ${directory}`)
+shell.exec(`${__dirname}/groovestack-new.sh ${process.argv[2]} ${directory}`)

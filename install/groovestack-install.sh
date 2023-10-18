@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+cd $3;
 
 echo "⚡️ Groovestack App Setup Complete";
 
