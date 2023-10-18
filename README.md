@@ -5,7 +5,7 @@ seamlessly in either completely new applications or existing applications.
 
 ### Getting Started
 
-To get started, simply install Groovestack Launch Utility by running
+To get started, simply install Groovestack Launch Utility by running \n
 `npm install -g @groovestack/launch@latest`
 
 ## Build a fully new Groovestack App from scratch
