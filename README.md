@@ -11,10 +11,10 @@ To get started, simply install Groovestack Launch Utility by running
 
 ## Build a fully new Groovestack App from scratch
 
-`npx groovestack-new $AppName`
+`npx new-groovestack $AppName`
 
 ## Install Groovestack into an Existing App
 
-`npx groovestack-install $path_to_existing_app`
+`npx install-groovestack $path_to_existing_app`
 
 

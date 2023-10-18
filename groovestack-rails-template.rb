@@ -33,8 +33,6 @@ after_bundle do
   File.delete('Procfile.dev')
 
   FileUtils.rm_rf('app/javascript/entrypoints')
-
-  # fix line item to https file location of dev
   FileUtils.cp("#{__dir__}/dev", "#{Dir.pwd}/bin/")
 
   gsub_file "config/vite.json", "app/javascript", "app/frontend"
