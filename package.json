@@ -1,12 +1,13 @@
 {
-  "name": "@groovestack/launch",
-  "version": "0.0.6",
+  "name": "create-groovestack",
+  "version": "0.1.0",
   "description": "Groovestack Config App Installer",
   "bin": {
-    "groovestack-new": "./new/new.js",
-    "groovestack-install": "./install/install.js"
+    "create-groovestack": "./new/new.js",
+    "upgrade-groovestack": "./upgrade/upgrade.js"
   },
   "dependencies": {
-    "shelljs": "^0.8.5"
+    "semver": ">=7.5.4",
+    "shelljs": ">=0.8.5"
   }
 }

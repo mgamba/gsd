@@ -1,36 +1,57 @@
 # Groovestack Basics
 gem 'graphql'
 gem 'uuid'
+gem 'pg_lock'
+gem 'rubocop', require: false
 gem 'vite_rails'
-gem "wisper", "2.0.0"
-gem 'que', github: 'talysto/que', branch: 'talysto-que-enhancements'
-gem "pg_lock"
+gem 'wisper', '>=2.0.0'
 
-gem 'view_component'
+# Core Jobs
+gem 'que', github: 'talysto/que', branch: 'master'
 
 github 'moonlight-labs/core', branch: 'dev' do
   gem 'core-base'
   gem 'core-jobs'
 end
 
+# TODO: detect package manager
 after_bundle do
   run "touch yarn.lock"
-  run "yarn add graphql @rails/actioncable graphql-ruby-client react react-dom react-admin ra-data-fakerest @moonlight-labs/ra-data-graphql-advanced @mui/material @react-admin/ra-realtime ra-data-simple-rest @mui/material @moonlight-labs/core-jobs-fe @moonlight-labs/core-config-fe"
+
+  js_dev_packages = %w[
+    ra-data-fakerest
+    ra-data-simple-rest
+  ]
+
+  js_packages = %w[
+    @moonlight-labs/core-config-fe
+    @moonlight-labs/core-jobs-fe
+    @moonlight-labs/ra-data-graphql-advanced
+    @mui/material
+    @rails/actioncable
+    @react-admin/ra-realtime
+    graphql
+    graphql-ruby-client
+    react
+    react-admin
+    react-dom
+  ]
+
+  run "yarn add #{js_dev_packages.join(' ')}"
+
+  run "yarn add #{js_packages.join(' ')}"
+
   run "bundle exec vite install"
 
   application "config.active_record.schema_format = :sql"
   application "config.active_job.queue_adapter = :que"
   application "config.action_cable.mount_path = '/cable'"
 
-  route "mount ActionCable.server => '/cable'"
-  route "root to: 'application#index', as: :home"
-  route "post '/graphql', to: 'graphql#execute'"
-
   application "config.to_prepare do\nRails.autoloaders.main.eager_load_dir(Rails.root.join('app/graphql'))\nend", env: 'development'
 
-  File.delete('config/cable.yml')
-  File.delete('config/puma.rb')
-  File.delete('Procfile.dev')
+  route "mount ActionCable.server => '/cable'"
+  route "post '/graphql', to: 'graphql#execute'"
+  route "root to: 'application#index', as: :home"
 
   FileUtils.rm_rf('app/javascript/entrypoints')
   FileUtils.cp("#{__dir__}/dev", "#{Dir.pwd}/bin/")
@@ -69,7 +90,6 @@ after_bundle do
     
       # Union and Interface Resolution
       def self.resolve_type(abstract_type, obj, ctx)
-        # TODO: Implement this method
         # to return the correct GraphQL object type for `obj`
         raise(GraphQL::RequiredImplementationMissingError)
       end
@@ -210,18 +230,18 @@ after_bundle do
   end
 
   # cable.yml
-  file "config/cable.yml" do
-  "default: &default
-  adapter: postgresql
-
-  development:
-    <<: *default
-
-  test:
-    adapter: test
-
-  production:
-    <<: *default"
+  file "config/cable.yml", force:true do
+    {
+      development: {
+        adapter: 'postgresql',
+      },
+      test: {
+        adapter: 'test',
+      },
+      production: {
+        adapter: 'postgresql',
+      }
+    }.to_yaml
   end
 
   # app/frontend/entrypoints/application.js
@@ -229,27 +249,24 @@ after_bundle do
     "import '~/entrypoints/groovestack-admin.js'"
   end
 
-
   # app/views/application/index.html.erb
   file "app/views/application/index.html.erb" do
-  "<header>
-    <div id='root'></div>
-  </header>"
+    "<div id='root'></div>"
   end
 
   # app/frontend/entrypoints/groovestack-admin.js
   file "app/frontend/entrypoints/groovestack-admin.js" do
-  "import React from 'react'
+    "import React from 'react'
 
-  import { AdminApp } from '../components/AdminApp'
-  import { createRoot } from 'react-dom/client'
+    import { AdminApp } from '../components/AdminApp'
+    import { createRoot } from 'react-dom/client'
 
-  const root = createRoot(document.getElementById('root'))
-  root.render(React.createElement(AdminApp))"
+    const root = createRoot(document.getElementById('root'))
+    root.render(React.createElement(AdminApp))"
   end
 
-   # app/frontend/components/AdminApp.tsx
-   file "app/frontend/components/AdminApp.tsx" do
+  # app/frontend/components/AdminApp.tsx
+  file "app/frontend/components/AdminApp.tsx" do
     "import React, { useEffect, useState } from 'react'
     import { Admin, Resource } from 'react-admin'
     import { Jobs } from '@moonlight-labs/core-jobs-fe'
@@ -287,8 +304,8 @@ after_bundle do
     }"
   end
 
-  # app/frontend/components/client.tsx
-  file "app/frontend/components/client.tsx" do
+  # app/frontend/components/client.ts
+  file "app/frontend/components/client.ts" do
     "import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client'
     import { createConsumer } from '@rails/actioncable'
     import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink'
@@ -323,8 +340,8 @@ after_bundle do
     })"
   end
 
-  # app/frontend/components/dataProvider.tsx
-  file "app/frontend/components/dataProvider.tsx" do
+  # app/frontend/components/dataProvider.ts
+  file "app/frontend/components/dataProvider.ts" do
     "import buildGraphQLProvider from '@moonlight-labs/ra-data-graphql-advanced'
 
     import { client } from './client'
@@ -338,8 +355,8 @@ after_bundle do
     }"
   end
 
-   # app/graphql/types/query_type.rb
-   file "app/graphql/types/query_type.rb" do
+  # app/graphql/types/query_type.rb
+  file "app/graphql/types/query_type.rb" do
     "module Types
       class QueryType < ::Core::Base::GraphQL::BaseObject
         include ::Core::Jobs::GraphQL::Job::Queries
@@ -366,7 +383,7 @@ after_bundle do
   end
 
   # config/puma.rb
-  file "config/puma.rb" do
+  file "config/puma.rb", force:true do
     "# Puma can serve each request in a thread from an internal thread pool.
     # The `threads` method setting takes two numbers: a minimum and maximum.
     # Any libraries that use thread pools should be configured to match
@@ -417,7 +434,7 @@ after_bundle do
   end
 
   # Procfile.dev
-  file "Procfile.dev" do
+  file "Procfile.dev", force:true do
     "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s"
   end
 
@@ -430,10 +447,8 @@ after_bundle do
   rails_command "db:create"
   rails_command "db:migrate"
 
-  #   # run "./bin/dev"
   puts "⚡️ Groovestack App Setup Complete"
 end
-
 
 run_bundle 
 run_after_bundle_callbacks
