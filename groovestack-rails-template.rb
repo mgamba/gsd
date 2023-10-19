@@ -14,14 +14,27 @@ github 'moonlight-labs/core', branch: 'dev' do
   gem 'core-jobs'
 end
 
-# TODO: detect package manager
 after_bundle do
-  run "touch yarn.lock"
+  # determine user's package manager
+  pkg_manager = ARGV[1].split('=')[1]
+
+  case pkg_manager
+  when 'pnpm'
+    pkg_command = 'pnpm add'
+  when 'yarn'
+    pkg_command = 'yarn add'
+  when 'npm'
+    pkg_command = 'npm install'
+  else
+    pkg_command = 'pnpm add'
+  end
+  
+  # prevents default behavior for vite to generate `package-lock.json`
+  run "touch #{pkg_manager}.lock"
 
   js_dev_packages = %w[
     ra-data-fakerest
     ra-data-simple-rest
-    prettier
   ]
 
   js_packages = %w[
@@ -38,37 +51,46 @@ after_bundle do
     react-dom
   ]
 
-  run "yarn add #{js_dev_packages.join(' ')}"
+  # yarn packages
+  run "#{pkg_command} #{js_dev_packages.join(' ')}"
+  run "#{pkg_command} #{js_packages.join(' ')}"
 
-  run "yarn add #{js_packages.join(' ')}"
-
+  # vite installer
   run "bundle exec vite install"
 
+  # config/application.rb
   application "config.active_record.schema_format = :sql"
   application "config.active_job.queue_adapter = :que"
   application "config.action_cable.mount_path = '/cable'"
-
   application "config.to_prepare do\nRails.autoloaders.main.eager_load_dir(Rails.root.join('app/graphql'))\nend", env: 'development'
 
+  # config/routes.rb
   route "mount ActionCable.server => '/cable'"
   route "post '/graphql', to: 'graphql#execute'"
   route "root to: 'application#index', as: :home"
 
+  # app/javascript/entrypoints
   FileUtils.rm_rf('app/javascript/entrypoints')
+
+  # ./bin/dev
   FileUtils.cp("#{__dir__}/dev", "#{Dir.pwd}/bin/")
 
+  # config/vite.json
   gsub_file "config/vite.json", "app/javascript", "app/frontend"
 
+  # config/initializers/inflections.rb
   insert_into_file "config/initializers/inflections.rb" do
     "ActiveSupport::Inflector.inflections(:en) do |inflect|\n\tinflect.acronym 'GraphQL'\nend"
   end
 
+  # app/controllers/application_controller.rb
   inject_into_file 'app/controllers/application_controller.rb', :before => /^end/ do
     "\n     def index; end\n\n"
   end
 
   schema_name = "GroovestackSchema"
 
+  # app/graphql/#{schema_name.underscore}.rb
   file "app/graphql/#{schema_name.underscore}.rb" do
     "class #{schema_name} < GraphQL::Schema
       use GraphQL::Subscriptions::ActionCableSubscriptions
@@ -114,6 +136,7 @@ after_bundle do
     end"
   end
 
+  # app/channels/graphql_channel.rb
   file 'app/channels/graphql_channel.rb' do
     "class GraphQLChannel < ::ApplicationCable::Channel
       def subscribed
@@ -175,6 +198,7 @@ after_bundle do
     end"
   end
 
+  # app/controllers/graphql_controller.rb
   file "app/controllers/graphql_controller.rb" do
     "class GraphQLController < ApplicationController
       # If accessing from outside this domain, nullify the session
@@ -451,5 +475,7 @@ after_bundle do
   puts "⚡️ Groovestack App Setup Complete"
 end
 
+# these commands required to be run as part of the `bin/rails app:template` command
+# if using this template in a `rails new with template` command, these lines should be commented 
 run_bundle 
 run_after_bundle_callbacks

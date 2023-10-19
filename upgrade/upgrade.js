@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-
 const path = require('path')
 const shell = require('shelljs')
-const directory = path.join(__dirname, '..')
 const semver = require('semver')
+
+const directory = path.join(__dirname, '..')
 
 const nodeVersion = shell.exec('node -v', { silent: true }).stdout.replace(/[^0-9\.]/g,"")
 const rubyVersion = shell.exec('ruby -v', { silent: true }).stdout.replace(/[^0-9\.]/g,"").substring(0,5)
@@ -12,7 +12,6 @@ const railsVersion = shell.exec('rails -v', { silent: true }).stdout.replace(/[^
 console.log('Node: ', nodeVersion)
 console.log('Ruby: ', rubyVersion)
 console.log('Rails: ', railsVersion)
-
 
 if (!semver.gte(nodeVersion, '18.0.0')) {
   console.log('Please upgrade Node to version 18.0.0 or higher to continue')

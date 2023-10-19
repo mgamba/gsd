@@ -5,8 +5,10 @@ seamlessly in either completely new applications or existing applications.
 
 ### Getting Started
 
-To get started, simply install Groovestack Launch Utility by running
+To get started, install Groovestack Launch Utility by running
+
 `npm install -g create-groovestack $AppName` or run
+
 `npx create-groovestack $AppName` directly and it will prompt you
 to install the latest version of the package.
 
