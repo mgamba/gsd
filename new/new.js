@@ -49,6 +49,10 @@ const cmds = [
   {
     shellCmd: 'exec',
     args: `rubocop -x`
+  },
+  {
+    shellCmd: 'exec',
+    args: `prettier . --write`
   }
 ]
 

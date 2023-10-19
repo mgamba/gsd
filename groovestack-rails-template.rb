@@ -21,6 +21,7 @@ after_bundle do
   js_dev_packages = %w[
     ra-data-fakerest
     ra-data-simple-rest
+    prettier
   ]
 
   js_packages = %w[
