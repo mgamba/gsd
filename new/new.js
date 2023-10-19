@@ -48,7 +48,7 @@ const cmds = [
   },
   {
     shellCmd: 'exec',
-    args: `rubocop`
+    args: `rubocop -x`
   }
 ]
 
