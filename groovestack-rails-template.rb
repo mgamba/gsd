@@ -15,10 +15,6 @@ github 'moonlight-labs/core', branch: 'dev' do
 end
 
 after_bundle do
-  
-  # for heroku production builds
-  run "bundle lock --add-platform x86_64-linux"
-
   # determine user's package manager
   pkg_manager = ARGV[1].split('=')[1]
 
@@ -32,7 +28,7 @@ after_bundle do
   else
     pkg_command = 'pnpm add'
   end
-  
+
   # prevents default behavior for vite to generate `package-lock.json`
   run "touch #{pkg_manager}.lock"
 
@@ -98,14 +94,14 @@ after_bundle do
   file "app/graphql/#{schema_name.underscore}.rb" do
     "class #{schema_name} < GraphQL::Schema
       use GraphQL::Subscriptions::ActionCableSubscriptions
-      
+
       mutation(::Types::MutationType)
       query(::Types::QueryType)
       subscription(::Types::SubscriptionType)
-    
+
       # For batch-loading (see https://graphql-ruby.org/dataloader/overview.html)
       use GraphQL::Dataloader
-    
+
       # GraphQL-Ruby calls this when something goes wrong while running a query:
       def self.type_error(err, context)
         # if err.is_a?(GraphQL::InvalidNullError)
@@ -114,24 +110,24 @@ after_bundle do
         # end
         super
       end
-    
+
       # Union and Interface Resolution
       def self.resolve_type(abstract_type, obj, ctx)
         # to return the correct GraphQL object type for `obj`
         raise(GraphQL::RequiredImplementationMissingError)
       end
-    
+
       # Stop validating when it encounters this many errors:
       validate_max_errors(100)
-    
+
       # Relay-style Object Identification:
-    
+
       # Return a string UUID for `object`
       def self.id_from_object(object, type_definition, query_ctx)
         # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
         object.to_gid_param
       end
-    
+
       # Given a string UUID, find the object
       def self.object_from_id(global_id, query_ctx)
         # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
@@ -146,7 +142,7 @@ after_bundle do
       def subscribed
         @subscription_ids = []
       end
-  
+
       def execute(data)
         query = data['query']
         variables = ensure_hash(data['variables'])
@@ -155,34 +151,34 @@ after_bundle do
           channel: self,
           schema: ::#{schema_name}
         }
-    
+
         result =  ::#{schema_name}.execute(
           query: query,
           context: context,
           variables: variables,
           operation_name: operation_name
         )
-    
+
         payload = {
           result: result.to_h,
           more: result.subscription?
         }
-    
+
         # Track the subscription here so we can remove it
         # on unsubscribe.
         @subscription_ids << result.context[:subscription_id] if result.context[:subscription_id]
-    
+
         transmit(payload)
       end
-  
+
       def unsubscribed
         @subscription_ids.each do |sid|
           ::#{schema_name}.subscriptions.delete_subscription(sid)
         end
       end
-  
+
     private
-  
+
       def ensure_hash(ambiguous_param)
         case ambiguous_param
         when String
@@ -259,7 +255,7 @@ after_bundle do
   end
 
   # cable.yml
-  file "config/cable.yml", force:true do
+  file "config/cable.yml", force: true do
     {
       development: {
         adapter: 'postgresql',
@@ -341,7 +337,7 @@ after_bundle do
 
     // # VITE ENV
     const uri = '/graphql'
-      
+
     const getWSURL = () => {
       return '/cable'
     }
@@ -412,7 +408,7 @@ after_bundle do
   end
 
   # config/puma.rb
-  file "config/puma.rb", force:true do
+  file "config/puma.rb", force: true do
     "# Puma can serve each request in a thread from an internal thread pool.
     # The `threads` method setting takes two numbers: a minimum and maximum.
     # Any libraries that use thread pools should be configured to match
@@ -463,7 +459,7 @@ after_bundle do
   end
 
   # Procfile.dev
-  file "Procfile.dev", force:true do
+  file "Procfile.dev", force: true do
     "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s"
   end
 
@@ -479,7 +475,10 @@ after_bundle do
   puts "⚡️ Groovestack App Setup Complete"
 end
 
-# these commands required to be run as part of the `bin/rails app:template` command
-# if using this template in a `rails new with template` command, these lines should be commented 
-run_bundle 
-run_after_bundle_callbacks
+# these commands required to be run as part of the `bin/rails app:template` command except in the case of 7.1+
+# if using this template in a `rails new with template` command, these lines should be commented
+
+if Rails.gem_version <= Gem::Version.new('7.1')
+  run_bundle
+  run_after_bundle_callbacks
+end

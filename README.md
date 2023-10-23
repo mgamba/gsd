@@ -1,6 +1,6 @@
 # @groovestack/launch
 
-@groovestack/launch is a utility that allows you to integrate Groovestack 
+@groovestack/launch is a utility that allows you to integrate Groovestack
 seamlessly in either completely new applications or existing applications.
 
 ### Getting Started
@@ -24,5 +24,3 @@ to install the latest version of the package.
 `cd` into the existing application and run
 
 `npx upgrade-groovestack`
-
-

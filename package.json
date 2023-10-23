@@ -1,14 +1,12 @@
 {
   "name": "create-groovestack",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "description": "Groovestack Config App Installer",
   "bin": {
     "create-groovestack": "./new/new.js",
     "upgrade-groovestack": "./upgrade/upgrade.js"
   },
   "dependencies": {
-    "ra-data-fakerest": "^4.15.0",
-    "ra-data-simple-rest": "^4.15.0",
     "semver": ">=7.5.4",
     "shelljs": ">=0.8.5"
   }
