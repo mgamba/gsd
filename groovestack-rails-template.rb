@@ -15,6 +15,10 @@ github 'moonlight-labs/core', branch: 'dev' do
 end
 
 after_bundle do
+  
+  # for heroku production builds
+  run "bundle lock --add-platform x86_64-linux"
+
   # determine user's package manager
   pkg_manager = ARGV[1].split('=')[1]
 
