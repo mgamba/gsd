@@ -1,6 +1,5 @@
-# @groovestack/launch
-
-@groovestack/launch is a utility that allows you to integrate Groovestack
+# create-groovestack
+create-groovestack is a utility that allows you to integrate Groovestack
 seamlessly in either completely new applications or existing applications.
 
 ### Getting Started
