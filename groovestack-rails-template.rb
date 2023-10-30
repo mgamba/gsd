@@ -367,14 +367,18 @@ after_bundle do
 
   # app/frontend/components/dataProvider.ts
   file "app/frontend/components/dataProvider.ts" do
-    "import buildGraphQLProvider from '@moonlight-labs/ra-data-graphql-advanced'
+    "import buildGraphQLProvider, { buildIntrospection, FieldNameConventionEnum, DataProviderExtensions } from '@moonlight-labs/ra-data-graphql-advanced'
 
     import { client } from './client'
 
+    export const introspection = buildIntrospection(FieldNameConventionEnum.SNAKE)
+
     export async function initDataProvider(options?: any) {
       return buildGraphQLProvider({
-        client,
-        fieldNamingConvention: 'snake',
+        bulkActionsEnabled: true,
+        client: client,
+        fieldNameConvention: FieldNameConventionEnum.SNAKE,
+        introspection: introspection,
         ...options,
       })
     }"
