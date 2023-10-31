@@ -39,6 +39,7 @@ after_bundle do
 
   js_packages = %w[
     @moonlight-labs/core-config-fe
+    @moonlight-labs/core-auth-fe
     @moonlight-labs/core-jobs-fe
     @moonlight-labs/ra-data-graphql-advanced
     @mui/material
@@ -297,6 +298,8 @@ after_bundle do
     import { Jobs } from '@moonlight-labs/core-jobs-fe'
     import { HomeView } from '@moonlight-labs/core-config-fe'
     import { initDataProvider } from './dataProvider'
+    import { Auth } from '@moonlight-labs/core-auth-fe'
+
     // import { mockDataProvider } from './mockDataProvider/mock-providers'
 
     export const AdminApp = () => {
@@ -311,9 +314,12 @@ after_bundle do
 
       if (!dataProvider) return <div>Loading...</div>
 
+      
       return (
         <Admin
+        loginPage={Auth.RA.LoginPage}
         disableTelemetry
+        authProvider={Auth.RA.Providers.Mock}
         dataProvider={dataProvider}
         dashboard={HomeView}
       >
@@ -387,7 +393,7 @@ after_bundle do
   # app/graphql/types/query_type.rb
   file "app/graphql/types/query_type.rb" do
     "module Types
-      class QueryType < ::Core::Base::GraphQL::BaseObject
+      class QueryType < ::Core::Base::GraphQL::Types::BaseObject
         include ::Core::Jobs::GraphQL::Job::Queries
       end
     end"
@@ -396,7 +402,7 @@ after_bundle do
   # app/graphql/types/mutation_type.rb
   file "app/graphql/types/mutation_type.rb" do
     "module Types
-      class MutationType < ::Core::Base::GraphQL::BaseObject
+      class MutationType < ::Core::Base::GraphQL::Types::BaseObject
         include ::Core::Jobs::GraphQL::Job::Mutations
       end
     end"
@@ -405,7 +411,7 @@ after_bundle do
   # app/graphql/types/subscription_type.rb
   file "app/graphql/types/subscription_type.rb" do
     "module Types
-      class SubscriptionType < ::Core::Base::GraphQL::BaseObject
+      class SubscriptionType < ::Core::Base::GraphQL::Types::BaseObject
         include ::Core::Jobs::GraphQL::Job::Subscriptions
       end
     end"
@@ -480,8 +486,6 @@ after_bundle do
 end
 
 # these commands required to be run as part of the `bin/rails app:template` command except in the case of 7.1+
-# if using this template in a `rails new with template` command, these lines should be commented
-
 if Rails.gem_version <= Gem::Version.new('7.1')
   run_bundle
   run_after_bundle_callbacks
