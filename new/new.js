@@ -86,7 +86,7 @@ if (!semver.satisfies(railsVersion, ">=7.0.0 || <7.1.0")) {
     "Groovestack requires Rails 7+ to install successfully. We will attempt to add the correct version of Rails for you."
   );
 
-  cmds.push({
+  cmds.unshift({
     shellCmd: "exec",
     args: `if ! gem list rails -i --silent; then echo "Installing rails..."; gem install rails -v 7.0.8; fi;`,
   });
