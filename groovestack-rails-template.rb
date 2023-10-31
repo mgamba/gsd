@@ -16,18 +16,21 @@ end
 
 after_bundle do
   # determine user's package manager
-  pkg_manager = ARGV[1].split('=')[1]
+  # pkg_manager = ARGV[1].split('=')[1]
+  pkg_manager = 'pnpm'
 
-  case pkg_manager
-  when 'pnpm'
-    pkg_command = 'pnpm add'
-  when 'yarn'
-    pkg_command = 'yarn add'
-  when 'npm'
-    pkg_command = 'npm install'
-  else
-    pkg_command = 'pnpm add'
-  end
+  # case pkg_manager
+  # when 'pnpm'
+  #   pkg_command = 'pnpm add'
+  # when 'yarn'
+  #   pkg_command = 'yarn add'
+  # when 'npm'
+  #   pkg_command = 'npm install'
+  # else
+  #   pkg_command = 'pnpm add'
+  # end
+
+  pkg_command = 'pnpm add'
 
   # prevents default behavior for vite to generate `package-lock.json`
   run "touch #{pkg_manager}.lock"
@@ -38,6 +41,7 @@ after_bundle do
   ]
 
   js_packages = %w[
+    @apollo/client
     @moonlight-labs/core-config-fe
     @moonlight-labs/core-auth-fe
     @moonlight-labs/core-jobs-fe
@@ -486,7 +490,7 @@ after_bundle do
 end
 
 # these commands required to be run as part of the `bin/rails app:template` command except in the case of 7.1+
-if Rails.gem_version <= Gem::Version.new('7.1')
+# if Rails.gem_version <= Gem::Version.new('7.1')
   run_bundle
   run_after_bundle_callbacks
-end
+# end

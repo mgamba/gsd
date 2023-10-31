@@ -44,16 +44,16 @@ let cmds = [
   },
   {
     shellCmd: "exec",
-    args: `bin/rails app:template LOCATION=${directory}/groovestack-rails-template.rb ${argv[3]}`,
+    args: `bin/rails app:template LOCATION=${directory}/groovestack-rails-template.rb`,
   },
-  {
-    shellCmd: "exec",
-    args: `rubocop -x`,
-  },
-  {
-    shellCmd: "exec",
-    args: `npx prettier . --write`,
-  },
+  // {
+  //   shellCmd: "exec",
+  //   args: `rubocop -x`,
+  // },
+  // {
+  //   shellCmd: "exec",
+  //   args: `npx prettier . --write`,
+  // },
 ];
 
 if (!semver.gte(nodeVersion, "18.0.0")) {
@@ -91,8 +91,6 @@ if (!semver.satisfies(railsVersion, ">=7.0.0 || <7.1.0")) {
     args: `if ! gem list rails -i --silent; then echo "Installing rails..."; gem install rails -v 7.0.8; fi;`,
   });
 }
-
-console.log(cmds);
 
 cmds.forEach((cmd) => {
   console.log(cmd);
