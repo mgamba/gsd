@@ -72,6 +72,7 @@ after_bundle do
   route "mount ActionCable.server => '/cable'"
   route "post '/graphql', to: 'graphql#execute'"
   route "root to: 'application#index', as: :home"
+  route "mount Core::Auth::Engine, at: ''"
 
   # app/javascript/entrypoints
   FileUtils.rm_rf('app/javascript/entrypoints')

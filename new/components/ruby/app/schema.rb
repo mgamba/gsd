@@ -1,4 +1,6 @@
 class GroovestackSchema < GraphQL::Schema
+  include Core::Auth::SchemaPlugin
+  
   use GraphQL::Subscriptions::ActionCableSubscriptions
 
   mutation(::Types::MutationType)

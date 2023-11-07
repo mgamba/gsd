@@ -1,4 +1,4 @@
-class GraphQLController < ApplicationController
+class GraphQLController < Core::Auth::AuthenticatedApiController
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
   # but you'll have to authenticate your user separately
@@ -10,10 +10,10 @@ class GraphQLController < ApplicationController
     variables = prepare_variables(params[:variables])
     query = params[:query]
     operation_name = params[:operationName]
-    context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
-    }
+    
+    context = gql_devise_context(User).merge(bypass_sign_in: method(:bypass_sign_in))
+    context[:current_user] = context[:current_resource]
+
     result =  ::GroovestackSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
