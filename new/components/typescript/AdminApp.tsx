@@ -23,11 +23,6 @@ const CURRENT_USER_QUERY = gql`
   }
 `
 
-const { data, errors } = await client.query({
-  query: CURRENT_USER_QUERY,
-  variables: { id: 'me' }
-})
-
 const hydrateCurrentUser = async () => {
   let currentUser = storeActions.getCurrentResource()
 
@@ -35,8 +30,11 @@ const hydrateCurrentUser = async () => {
   if (currentUser) return currentUser
 
   // // fetch current user
-  // currentUser = data.User[0]
-  // currentUser.fullName = currentUser.name
+  const { data, errors } = await client.query({
+    query: CURRENT_USER_QUERY,
+    variables: { id: 'me' }
+  })
+  currentUser = data.User
 
   storeActions.setCurrentResource(currentUser)
 
