@@ -8,6 +8,7 @@ const CURRENT_USER_QUERY = gql`
     User(id: $id){
       email
       id
+      roles
     }
   }
 `
@@ -32,7 +33,6 @@ export const decodeCookie = (cookie: string | null): any => {
   // let decoded_stored_value = atob(cookie_payload._rails.message)
   // let stored_value = JSON.parse(decoded_stored_value)
   // return stored_value
-  console.log('json', JSON.parse(cookie_value))
 
   return JSON.parse(cookie_value)
 }
@@ -50,7 +50,8 @@ credentials.hydrateCurrentResource = async () => {
   try {
     const { data, errors} = await client.query({
       query: CURRENT_USER_QUERY,
-      variables: { id: 'me' }
+      variables: { id: 'me' },
+      fetchPolicy: 'no-cache'
     })
 
     credentials.setCurrentResource(data.User)
