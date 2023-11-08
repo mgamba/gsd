@@ -4,6 +4,8 @@ import { Jobs } from '@moonlight-labs/core-jobs-fe'
 import { HomeView } from '@moonlight-labs/core-config-fe'
 import { Auth } from '@moonlight-labs/core-auth-fe'
 import { ApolloProvider } from '@apollo/client'
+import { CustomLayout } from './layout/CustomLayout'
+import { theme } from './layout/theme'
 
 import { client, credentials } from './client'
 import { initDataProvider } from './dataProvider'
@@ -35,7 +37,9 @@ export const AdminApp = () => {
         authProvider={authProvider}
         dataProvider={dataProvider}
         dashboard={HomeView}
-     >
+        layout={CustomLayout}
+        theme={theme}
+      >
       <Resource
         name={Auth.Users.Name}
         icon={Auth.Users.Icon}
@@ -49,7 +53,6 @@ export const AdminApp = () => {
         list={Jobs.List}
         recordRepresentation={Jobs.resourceRepresentation}
       />
-      <Resource name='User' />
     </Admin>
   </ApolloProvider>
 )}
