@@ -186,7 +186,7 @@ after_bundle do
 
   # Procfile.dev overwrite
   file "Procfile.dev", force: true do
-    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s"
+    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s -p 3000"
   end
 
   # # # Setup the DB initially
