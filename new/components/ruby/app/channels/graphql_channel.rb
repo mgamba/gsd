@@ -9,7 +9,9 @@ class GraphQLChannel < ::ApplicationCable::Channel
     operation_name = data['operationName']
     context = {
       channel: self,
-      schema: ::GroovestackSchema
+      schema: ::GroovestackSchema,
+      current_resource: current_resource,
+      current_user: current_resource # redundant, but refactor required
     }
 
     result =  ::GroovestackSchema.execute(

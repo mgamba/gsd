@@ -9,9 +9,11 @@ require 'json'
 
 # Core Jobs
 gem 'que', github: 'talysto/que', branch: 'master'
+gem 'omniauth-rails_csrf_protection'
 
 github 'moonlight-labs/core', branch: 'dev' do
   gem 'core-base'
+  gem 'core-auth'
   gem 'core-jobs'
 end
 
@@ -71,8 +73,8 @@ after_bundle do
   # config/routes.rb
   route "mount ActionCable.server => '/cable'"
   route "post '/graphql', to: 'graphql#execute'"
-  route "root to: 'application#index', as: :home"
   route "mount Core::Auth::Engine, at: ''"
+  route "root to: 'application#index', as: :home"
 
   # app/javascript/entrypoints
   FileUtils.rm_rf('app/javascript/entrypoints')
@@ -90,7 +92,11 @@ after_bundle do
 
   # app/controllers/application_controller.rb addition
   inject_into_file 'app/controllers/application_controller.rb', :before => /^end/ do
-    "\n     def index; end\n\n"
+    "\n\tdef index; end\n\n"
+  end
+
+  inject_into_file 'app/channels/application_cable/connection.rb', :after => "ActionCable::Connection::Base\n" do
+    "\t\tinclude Core::Auth::ActionCable::Connection\n"
   end
 
   file_json = JSON.parse(File.read("#{__dir__}/new/file-config.json"))

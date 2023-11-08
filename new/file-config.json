@@ -1,6 +1,6 @@
 [
   {
-    "location": "/new/components/ruby/app/schema.rb",
+    "location": "/new/components/ruby/app/graphql/groovestack_schema.rb",
     "write_location": "app/graphql/groovestack_schema.rb",
     "command": "write",
     "name": "groovestack_schema.rb"
@@ -18,31 +18,31 @@
     "name": "Procfile"
   },
   {
-    "location": "/new/components/ruby/graphql/graphql_channel.rb",
+    "location": "/new/components/ruby/app/channels/graphql_channel.rb",
     "write_location": "app/channels/graphql_channel.rb",
     "command": "write",
     "name": "graphql_channel.rb"
   },
   {
-    "location": "/new/components/ruby/graphql/graphql_controller.rb",
+    "location": "/new/components/ruby/app/controllers/graphql_controller.rb",
     "write_location": "app/controllers/graphql_controller.rb",
     "command": "write",
     "name": "graphql_controller.rb"
   },
   {
-    "location": "/new/components/ruby/graphql/types/mutation_type.rb",
+    "location": "/new/components/ruby/app/graphql/types/mutation_type.rb",
     "write_location": "app/graphql/types/mutation_type.rb",
     "command": "write",
     "name": "mutation_type.rb"
   },
   {
-    "location": "/new/components/ruby/graphql/types/subscription_type.rb",
+    "location": "/new/components/ruby/app/graphql/types/subscription_type.rb",
     "write_location": "app/graphql/types/subscription_type.rb",
     "command": "write",
     "name": "subscription_type.rb"
   },
   {
-    "location": "/new/components/ruby/graphql/types/query_type.rb",
+    "location": "/new/components/ruby/app/graphql/types/query_type.rb",
     "write_location": "app/graphql/types/query_type.rb",
     "command": "write",
     "name": "query_type.rb"
