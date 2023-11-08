@@ -30,21 +30,26 @@ export const AdminApp = () => {
   return (
     <ApolloProvider client={client}>
       <Admin
-      loginPage={Auth.RA.LoginPage}
-      disableTelemetry
-      authProvider={authProvider}
-      dataProvider={dataProvider}
-      dashboard={HomeView}
-    >
-        <Resource
-          name='Job'
-          icon={Jobs.Icon}
-          edit={Jobs.Edit}
-          list={Jobs.List}
-          recordRepresentation={Jobs.resourceRepresentation}
-        />
-        <Resource name='User' />
-      </Admin>
-    </ApolloProvider>
-  )
-}
+        loginPage={Auth.RA.LoginPage}
+        disableTelemetry
+        authProvider={authProvider}
+        dataProvider={dataProvider}
+        dashboard={HomeView}
+     >
+      <Resource
+        name={Auth.Users.Name}
+        icon={Auth.Users.Icon}
+        list={Auth.Users.List}
+        show={Auth.Users.Show}
+      />
+      <Resource
+        name='Job'
+        icon={Jobs.Icon}
+        edit={Jobs.Edit}
+        list={Jobs.List}
+        recordRepresentation={Jobs.resourceRepresentation}
+      />
+      <Resource name='User' />
+    </Admin>
+  </ApolloProvider>
+)}
