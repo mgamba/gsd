@@ -1,104 +1,50 @@
 import React, { useEffect, useState } from 'react'
-import { Admin, Resource, localStorageStore } from 'react-admin'
+import { Admin, AuthProvider, Resource } from 'react-admin'
 import { Jobs } from '@moonlight-labs/core-jobs-fe'
 import { HomeView } from '@moonlight-labs/core-config-fe'
-import { initDataProvider } from './dataProvider'
 import { Auth } from '@moonlight-labs/core-auth-fe'
-import { gql } from '@apollo/client'
-import { client } from './client'
-const store = localStorageStore()
+import { ApolloProvider } from '@apollo/client'
 
-const storeActions = {
-  getCurrentResource: () => store.getItem('currentUser'),
-  removeCurrentResource: () => store.removeItem('currentUser'),
-  setCurrentResource: (resource: any) => store.setItem('currentUser', resource),
-}
-
-const CURRENT_USER_QUERY = gql`
-  query User($id: ID!) {
-    User(id: $id){
-      email
-      id
-    }
-  }
-`
-
-const hydrateCurrentUser = async () => {
-  let currentUser = storeActions.getCurrentResource()
-
-  // short circuit. current user already set
-  if (currentUser) return currentUser
-
-  // // fetch current user
-  const { data, errors } = await client.query({
-    query: CURRENT_USER_QUERY,
-    variables: { id: 'me' }
-  })
-  currentUser = data.User
-
-  storeActions.setCurrentResource(currentUser)
-
-  return currentUser
-}
-
-const credentials = {
-  clearAuthHeaders: () => {},
-  setAuthHeaders: () => {},
-  getCurrentResource: storeActions.getCurrentResource,
-  removeCurrentResource: storeActions.removeCurrentResource,
-  setCurrentResource: storeActions.setCurrentResource,
-  hydrateCurrentResource: hydrateCurrentUser
-}
-
-const resource = 'Users'
-const requiredRole = 'admin'
-
-const params = {
-  resource: resource,
-  requiredRole: requiredRole,
-  client: client,
-  credentials: credentials
-}
-
-
-const authProvider = await Auth.Providers.Mock(params)
+import { client, credentials } from './client'
+import { initDataProvider } from './dataProvider'
 
 export const AdminApp = () => {
   const [dataProvider, setDataProvider] = useState(null)
+  const [authProvider, setAuthProvider] = useState<AuthProvider | null>()
 
-  useEffect(() => {
-    console.log('init data provider')
+  useEffect(async () => {
     initDataProvider().then((graphQlDataProvider) =>
       setDataProvider(() => graphQlDataProvider),
     )
+
+    Auth.RA.Providers.BaseFactory({ 
+      client: client,
+      credentials,
+      resource: 'user',
+      // requiredRole: 'admin',
+    }).then(authProvider => setAuthProvider(authProvider))
   }, [])
 
-  if (!dataProvider) return <div>Loading...</div>
-
+  if (!(dataProvider && authProvider)) return <div>Loading...</div>
+  
   return (
-    <Admin
+    <ApolloProvider client={client}>
+      <Admin
       loginPage={Auth.RA.LoginPage}
       disableTelemetry
       authProvider={authProvider}
       dataProvider={dataProvider}
       dashboard={HomeView}
     >
-      <Resource
-        name={Auth.Users.Name}
-        icon={Auth.Users.Icon}
-        // edit={User.Edit}
-        list={Auth.Users.List}
-        show={Auth.Users.Show}
-        recordRepresentation="Auth Name"
-        options={{ label: 'Users (Test)' }}
-      />
-      <Resource
-        name='Job'
-        icon={Jobs.Icon}
-        edit={Jobs.Edit}
-        list={Jobs.List}
-        recordRepresentation={Jobs.resourceRepresentation}
-      />
-    </Admin>
+        <Resource
+          name='Job'
+          icon={Jobs.Icon}
+          edit={Jobs.Edit}
+          list={Jobs.List}
+          recordRepresentation={Jobs.resourceRepresentation}
+        />
+        <Resource name='User' />
+      </Admin>
+    </ApolloProvider>
   )
 }

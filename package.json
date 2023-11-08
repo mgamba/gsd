@@ -7,6 +7,20 @@
     "upgrade-groovestack": "./upgrade/upgrade.js"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.7",
+    "@moonlight-labs/core-auth-fe": "^0.1.9",
+    "@moonlight-labs/core-config-fe": "^0.1.5",
+    "@moonlight-labs/core-jobs-fe": "^0.2.62",
+    "@moonlight-labs/ra-data-graphql-advanced": "^4.9.8",
+    "@mui/material": "^5.14.17",
+    "@rails/actioncable": "^7.1.1",
+    "graphql": "^16.8.1",
+    "graphql-ruby-client": "^1.11.9",
+    "ra-data-fakerest": "^4.15.2",
+    "ra-data-simple-rest": "^4.15.2",
+    "react": "^18.2.0",
+    "react-admin": "^4.15.3",
+    "react-dom": "^18.2.0",
     "semver": ">=7.5.4",
     "shelljs": ">=0.8.5"
   }

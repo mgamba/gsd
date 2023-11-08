@@ -49,7 +49,6 @@ after_bundle do
     @moonlight-labs/ra-data-graphql-advanced
     @mui/material
     @rails/actioncable
-    @react-admin/ra-realtime
     graphql
     graphql-ruby-client
     react
@@ -57,12 +56,12 @@ after_bundle do
     react-dom
   ]
 
+  # vite installer
+  run "bundle exec vite install"
+
   # yarn packages
   run "#{pkg_command} #{js_dev_packages.join(' ')}"
   run "#{pkg_command} #{js_packages.join(' ')}"
-
-  # vite installer
-  run "bundle exec vite install"
 
   # config/application.rb
   application "config.active_record.schema_format = :sql"
