@@ -1,5 +1,6 @@
-import { AppBar, TitlePortal } from 'react-admin'
+import { AppBar, TitlePortal, Layout } from 'react-admin'
 import { Auth } from '@moonlight-labs/core-auth-fe'
+import React from 'react'
 
 export const CustomAppBar = (props: any) => {
   return (
