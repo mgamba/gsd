@@ -14,6 +14,7 @@ gem 'omniauth-rails_csrf_protection'
 github 'moonlight-labs/core', branch: 'dev' do
   gem 'core-base'
   gem 'core-auth'
+  gem 'core-config'
   gem 'core-jobs'
 end
 
