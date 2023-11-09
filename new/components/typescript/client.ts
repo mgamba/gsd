@@ -6,8 +6,10 @@ import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink'
 const CURRENT_USER_QUERY = gql`
   query User($id: ID!) {
     User(id: $id){
-      email
       id
+      email
+      name
+      image
       roles
     }
   }
