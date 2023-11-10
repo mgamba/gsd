@@ -40,11 +40,21 @@ export const decodeCookie = (cookie: string | null): any => {
 }
 
 const credentials: any = {
-  getCurrentResource: () => localStorage.getItem('currentResource'),
+  getCurrentResource: () => {
+    const resource = localStorage.getItem('currentResource')
+    if (!resource) return null 
+
+    return JSON.parse(resource)
+  },
   removeCurrentResource: () => localStorage.removeItem('currentResource'),
   setCurrentResource: (r) => localStorage.setItem('currentResource', JSON.stringify(r)),
   clearAuthHeaders: () => localStorage.removeItem('authCredentials'),
-  getAuthHeaders: () => localStorage.getItem('authCredentials'),
+  getAuthHeaders: () => {
+    const headers = localStorage.getItem('authCredentials')
+    if (!headers) return {}
+
+    return JSON.parse(headers)
+  },
   setAuthHeaders: (headers) => localStorage.setItem('authCredentials', JSON.stringify(headers))
 }
 
@@ -100,7 +110,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      ...(authCredentials ? JSON.parse(authCredentials) : {})
+      ...(authCredentials)
     }
   }
 });

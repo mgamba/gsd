@@ -15,7 +15,7 @@ export const AdminApp = () => {
   const [dataProvider, setDataProvider] = useState(null)
   const [authProvider, setAuthProvider] = useState<AuthProvider | null>()
 
-  useEffect(async () => {
+  useEffect(() => {
     initDataProvider().then((graphQlDataProvider) =>
       setDataProvider(() => graphQlDataProvider),
     )
