@@ -6,6 +6,7 @@ import { Auth } from '@moonlight-labs/core-auth-fe'
 import { ApolloProvider } from '@apollo/client'
 import { theme } from './layout/theme'
 import { Box } from '@mui/material'
+import { gql, useQuery } from '@apollo/client'
 
 import { client, credentials } from './client'
 import { initDataProvider } from './dataProvider'
@@ -30,8 +31,15 @@ export const AdminApp = () => {
 
   if (!(dataProvider && authProvider)) return <div>Loading...</div>
 
-  const appInit = true
-  
+  const QUERY_APP_CONFIG = gql`
+    query {
+      AppConfig
+    }`
+
+  const { loading, data } = useQuery(
+    QUERY_APP_CONFIG
+  )
+
   const AppInitHeadline = () => {
     return (
       <Box sx={{ p: 3 }}>
@@ -40,6 +48,8 @@ export const AdminApp = () => {
       </Box>
     )
   }
+
+  const appInit = data.AppConfig.app_init
 
   const LoginPage = (props: any) => {
     return (
