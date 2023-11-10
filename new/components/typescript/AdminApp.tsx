@@ -6,15 +6,21 @@ import { Auth } from '@moonlight-labs/core-auth-fe'
 import { ApolloProvider } from '@apollo/client'
 import { theme } from './layout/theme'
 import { Box } from '@mui/material'
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 
 import { client, credentials } from './client'
 import { initDataProvider } from './dataProvider'
 import { CustomLayout } from './layout/CustomLayout'
 
+const QUERY_APP_CONFIG = gql`
+  query {
+    AppConfig
+}`
+
 export const AdminApp = () => {
   const [dataProvider, setDataProvider] = useState(null)
   const [authProvider, setAuthProvider] = useState<AuthProvider | null>()
+  const [appConfig, setAppConfig] = useState()
 
   useEffect(() => {
     initDataProvider().then((graphQlDataProvider) =>
@@ -27,18 +33,11 @@ export const AdminApp = () => {
       resource: 'user',
       // requiredRole: 'admin',
     }).then(authProvider => setAuthProvider(authProvider))
+
+    client.query({ query: QUERY_APP_CONFIG }).then((data: any) => setAppConfig(data?.data?.AppConfig))
   }, [])
 
-  if (!(dataProvider && authProvider)) return <div>Loading...</div>
-
-  const QUERY_APP_CONFIG = gql`
-    query {
-      AppConfig
-    }`
-
-  const { loading, data } = useQuery(
-    QUERY_APP_CONFIG
-  )
+  if (!(appConfig && dataProvider && authProvider)) return <div>Loading...</div>
 
   const AppInitHeadline = () => {
     return (
@@ -49,11 +48,10 @@ export const AdminApp = () => {
     )
   }
 
-  const appInit = data.AppConfig.app_init
 
   const LoginPage = (props: any) => {
     return (
-      <Auth.RA.LoginPage {...props} appInit={appInit} Headline={AppInitHeadline} />
+      <Auth.RA.LoginPage {...props} appInit={appConfig.app_init == 0} Headline={AppInitHeadline} />
     )
   }
   
