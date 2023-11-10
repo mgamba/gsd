@@ -4,6 +4,6 @@ module Types
 
     include ::GraphQL::User::Queries
     include ::GraphQL::Identity::Queries
-    include ::Core::Config::GraphQL::Apps::Queries
+    include ::Core::Config::GraphQL::App::Queries
   end
 end
