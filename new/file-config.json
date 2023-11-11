@@ -66,10 +66,10 @@
     "name": "CustomLayout.tsx"
   },
   {
-    "location": "/new/components/typescript/layout/theme.ts",
-    "write_location": "app/frontend/components/layout/theme.ts",
+    "location": "/new/components/typescript/useAppInit.ts",
+    "write_location": "app/frontend/components/useAppInit.ts",
     "command": "write",
-    "name": "theme.ts"
+    "name": "useAppInit.ts"
   },
   {
     "location": "/new/components/typescript/client.ts",
