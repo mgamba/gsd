@@ -54,18 +54,6 @@
     "name": "AdminApp.tsx"
   },
   {
-    "location": "/new/components/typescript/layout/CustomAppBar.tsx",
-    "write_location": "app/frontend/components/layout/CustomAppBar.tsx",
-    "command": "write",
-    "name": "CustomAppBar.tsx"
-  },
-  {
-    "location": "/new/components/typescript/layout/CustomLayout.tsx",
-    "write_location": "app/frontend/components/layout/CustomLayout.tsx",
-    "command": "write",
-    "name": "CustomLayout.tsx"
-  },
-  {
     "location": "/new/components/typescript/useAppInit.ts",
     "write_location": "app/frontend/components/useAppInit.ts",
     "command": "write",
