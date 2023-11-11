@@ -1,10 +1,8 @@
 import React from 'react'
 import { Admin, Resource } from 'react-admin'
 import { Auth } from '@moonlight-labs/core-auth-fe'
-import { HomeView } from '@moonlight-labs/core-config-fe'
+import { HomeView, CustomLayout } from '@moonlight-labs/core-config-fe'
 import { Jobs } from '@moonlight-labs/core-jobs-fe'
-
-import { CustomLayout } from './layout/CustomLayout'
 import { useAppInit } from './useAppInit'
 
 export const AdminApp = () => {
