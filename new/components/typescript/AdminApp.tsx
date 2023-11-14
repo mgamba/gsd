@@ -1,14 +1,36 @@
 import React from 'react'
-import { Admin, Resource } from 'react-admin'
+import { Admin, Resource, LayoutProps, houseLightTheme } from 'react-admin'
 import { Auth } from '@moonlight-labs/core-auth-fe'
-import { HomeView, CustomLayout } from '@moonlight-labs/core-config-fe'
+import { HomeView, GroovestackLayout } from '@moonlight-labs/core-config-fe'
 import { Jobs } from '@moonlight-labs/core-jobs-fe'
 import { useAppInit } from './useAppInit'
+import { Box } from '@mui/material'
 
 export const AdminApp = () => {
   const { loading: appLoading, authProvider, dataProvider } = useAppInit()
 
   if (appLoading) return <div>Loading...</div>
+
+  const appInit = useAppInit()
+
+  const AppInitHeadline = () => {
+    return (
+      <Box sx={{ p: 3 }}>
+        <div>There are currently no registered users on your application.</div>
+        <div>Be the first!</div>
+      </Box>
+    )
+  }
+  
+  const LoginPage = (props: any) => {
+    return (
+      <Auth.RA.LoginPage {...props} appInit={appInit} Headline={AppInitHeadline} />
+    )
+  }
+  
+  const CustomLayout = (props: LayoutProps) => {
+    return <GroovestackLayout LayoutProps={props} AppBarProps={{userMenu: <Auth.Users.Menu />}} />
+  }
   
   return (
     <Admin
@@ -18,6 +40,7 @@ export const AdminApp = () => {
       dataProvider={dataProvider}
       dashboard={HomeView}
       layout={CustomLayout}
+      theme={houseLightTheme}
     >
     <Resource
       name={Auth.Users.Name}
