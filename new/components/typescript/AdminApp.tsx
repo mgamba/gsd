@@ -10,23 +10,6 @@ export const AdminApp = () => {
   const { loading: appLoading, authProvider, dataProvider } = useAppInit()
 
   if (appLoading) return <div>Loading...</div>
-
-  const appInit = useAppInit()
-
-  const AppInitHeadline = () => {
-    return (
-      <Box sx={{ p: 3 }}>
-        <div>There are currently no registered users on your application.</div>
-        <div>Be the first!</div>
-      </Box>
-    )
-  }
-  
-  const LoginPage = (props: any) => {
-    return (
-      <Auth.RA.LoginPage {...props} appInit={appInit} Headline={AppInitHeadline} />
-    )
-  }
   
   const CustomLayout = (props: LayoutProps) => {
     return <GroovestackLayout LayoutProps={props} AppBarProps={{userMenu: <Auth.Users.Menu />}} />
@@ -40,7 +23,7 @@ export const AdminApp = () => {
       dataProvider={dataProvider}
       dashboard={HomeView}
       layout={CustomLayout}
-      theme={houseLightTheme}
+      // theme={houseLightTheme}
     >
     <Resource
       name={Auth.Users.Name}
