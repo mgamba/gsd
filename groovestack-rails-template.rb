@@ -202,3 +202,11 @@ end
   run_bundle
   run_after_bundle_callbacks
 # end
+
+
+# [Start]==========Rails multi environment credentials==========
+
+run "EDITOR=cat rails credentials:edit --environment development"
+run "EDITOR=cat rails credentials:edit --environment production"
+
+# [End]==========Rails multi environment credentials==========
