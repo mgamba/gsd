@@ -1,5 +1,6 @@
 import React from 'react'
-import { Admin, Resource, LayoutProps, houseLightTheme } from 'react-admin'
+import { Resource } from '@react-admin/ra-rbac'
+import { Admin, LayoutProps, houseLightTheme } from 'react-admin'
 import { Auth } from '@moonlight-labs/core-auth-fe'
 import { HomeView, GroovestackLayout } from '@moonlight-labs/core-config-fe'
 import { Jobs } from '@moonlight-labs/core-jobs-fe'
