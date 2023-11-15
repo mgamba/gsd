@@ -54,7 +54,6 @@ after_bundle do
     graphql-ruby-client
     react
     react-admin
-    @react-admin/ra-rbac
     react-dom
   ]
 
