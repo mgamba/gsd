@@ -6,16 +6,15 @@ seamlessly in either completely new applications or existing applications.
 
 To get started, install Groovestack Launch Utility by running
 
-`npm install -g create-groovestack $AppName` or run
+`pnpm add -g @groovestack/create-groovestack@latest $AppName` and run
 
 `npx create-groovestack $AppName` directly and it will prompt you
-to install the latest version of the package.
+to install the latest version of the package
+or `pnpm init groovestack $AppName`
 
 ## Build a fully new Groovestack App from scratch
 
-`yarn create groovestack $AppName`
-`pnpm create groovestack $AppName`
-`npm create groovestack $AppName`
+`pnpm init groovestack $AppName`
 `npx create-groovestack $AppName`
 
 ## Install Groovestack into an Existing App
