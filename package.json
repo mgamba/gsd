@@ -1,10 +1,14 @@
 {
-  "name": "create-groovestack",
-  "version": "0.3.82",
+  "name": "@groovestack/create-groovestack",
+  "version": "0.1.12",
   "description": "Groovestack Config App Installer",
   "bin": {
     "create-groovestack": "./new/new.js",
     "upgrade-groovestack": "./upgrade/upgrade.js"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "semver": ">=7.5.4",
