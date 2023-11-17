@@ -23,6 +23,7 @@ export const AdminApp = () => {
       dataProvider={dataProvider}
       dashboard={HomeView}
       layout={CustomLayout}
+      requireAuth
       // theme={houseLightTheme}
     >
     <Resource
