@@ -69,6 +69,8 @@ after_bundle do
   application "config.active_job.queue_adapter = :que"
   application "config.action_cable.mount_path = '/cable'"
   application "config.to_prepare do\nRails.autoloaders.main.eager_load_dir(Rails.root.join('app/graphql'))\nend", env: 'development'
+  # application "config.require_master_key = true", env: 'production'
+  gsub_file "config/environments/production.rb", "# config.require_master_key = true", "config.require_master_key = true"
 
   # config/routes.rb
   route "mount ActionCable.server => '/cable'"
