@@ -9,7 +9,7 @@ To get started, install Groovestack Launch Utility by running
 `yarn create groovestack $AppName` or\
 `pnpm create groovestack $AppName` or\
 `npm create groovestack@latest $AppName` or\
-`npx create-groovestack@latest $AppName`\
+`npx create-groovestack@latest $AppName`
 
 ## Install Groovestack into an Existing App
 
@@ -17,4 +17,4 @@ To get started, install Groovestack Launch Utility by running
 
 `yarn upgrade groovestack`\
 `pnpm upgrade groovestack`\
-`npx upgrade-groovestack@latest`\
+`npx upgrade-groovestack@latest`
