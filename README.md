@@ -4,9 +4,9 @@ seamlessly in either completely new applications or existing applications.
 
 ### Getting Started
 
-To get started, install Groovestack Launch Utility by running
-
+To get started, simply run the Groovestack Utility with the command
 `yarn create groovestack $AppName` or\
+
 `pnpm create groovestack $AppName` or\
 `npm create groovestack@latest $AppName` or\
 `npx create-groovestack@latest $AppName`
