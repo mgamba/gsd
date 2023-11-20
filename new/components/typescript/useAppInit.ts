@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AuthProvider, DataProvider } from 'react-admin'
-import { Auth } from '@moonlight-labs/core-auth-fe'
+import { Auth } from '@groovestack/auth'
 import { gql } from '@apollo/client'
 
 import { client } from './client'

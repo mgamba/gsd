@@ -1,7 +1,7 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client'
 import { createConsumer } from '@rails/actioncable'
 import ActionCableLink from 'graphql-ruby-client/subscriptions/ActionCableLink'
-import { Auth } from '@moonlight-labs/core-auth-fe'
+import { Auth } from '@groovestack/auth'
 
 // # VITE ENV
 const uri = '/graphql'

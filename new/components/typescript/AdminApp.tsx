@@ -1,8 +1,8 @@
 import React from 'react'
 import { Admin, Resource, LayoutProps, houseLightTheme } from 'react-admin'
-import { Auth } from '@moonlight-labs/core-auth-fe'
-import { HomeView, GroovestackLayout } from '@moonlight-labs/core-config-fe'
-import { Jobs } from '@moonlight-labs/core-jobs-fe'
+import { Auth } from '@groovestack/auth'
+import { HomeView, GroovestackLayout } from '@groovestack/config'
+import { Jobs } from '@groovestack/jobs'
 import { useAppInit } from './useAppInit'
 import { Box } from '@mui/material'
 
