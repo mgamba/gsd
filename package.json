@@ -1,6 +1,6 @@
 {
-  "name": "@groovestack/create-groovestack",
-  "version": "0.1.12",
+  "name": "create-groovestack",
+  "version": "0.4.4",
   "description": "Groovestack Config App Installer",
   "bin": {
     "create-groovestack": "./new/new.js",
