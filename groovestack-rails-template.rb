@@ -44,9 +44,10 @@ after_bundle do
 
   js_packages = %w[
     @apollo/client
-    @moonlight-labs/core-config-fe
-    @moonlight-labs/core-auth-fe
-    @moonlight-labs/core-jobs-fe
+    @groovestack/base
+    @groovestack/config
+    @groovestack/auth
+    @groovestack/jobs
     @moonlight-labs/ra-data-graphql-advanced
     @mui/material
     @rails/actioncable
