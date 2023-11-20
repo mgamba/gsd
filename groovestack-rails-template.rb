@@ -75,7 +75,7 @@ after_bundle do
   # config/routes.rb
   route "mount ActionCable.server => '/cable'"
   route "post '/graphql', to: 'graphql#execute'"
-  route "mount Core::Auth::Engine, at: ''"
+  route "mount Core::Auth::Railtie, at: ''"
   route "root to: 'application#index', as: :home"
 
   # app/javascript/entrypoints
