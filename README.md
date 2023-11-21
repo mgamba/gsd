@@ -1,6 +1,6 @@
 # create-groovestack
-create-groovestack is a utility that allows you to integrate Groovestack
-seamlessly in either completely new applications or existing applications.
+create-groovestack is a utility that allows you to quickly bootstrap a new https://talysto.com/tech/groovestack/[Groovestack]
+application.
 
 ### Getting Started
 
@@ -23,3 +23,12 @@ To get started, simply run the Groovestack Utility with the command
 `pnpm upgrade groovestack`
 
 `npx upgrade-groovestack@latest` -->
+
+After the utility has completed, cd into the new Groovestack app's root directory
+
+`cd $AppName`
+
+and launch the Vite / Rails app
+
+`bin/dev`
+
