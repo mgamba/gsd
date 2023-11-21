@@ -1,7 +1,10 @@
 {
   "name": "create-groovestack",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "description": "Groovestack Config App Installer",
+  "scripts": {
+    "test": "node ./new/new.js"
+  },
   "bin": {
     "create-groovestack": "./new/new.js",
     "upgrade-groovestack": "./upgrade/upgrade.js"
@@ -13,5 +16,8 @@
   "dependencies": {
     "semver": ">=7.5.4",
     "shelljs": ">=0.8.5"
+  },
+  "devDependencies": {
+    "yarpm": "^1.2.0"
   }
 }

@@ -19,7 +19,8 @@ github 'talysto/groovestack-core', branch: 'main' do
 end
 
 after_bundle do
-  pkg_manager = 'pnpm'
+
+  pkg_manager = ARGV[1]
 
   case pkg_manager
   when 'pnpm'
@@ -31,8 +32,6 @@ after_bundle do
   else
     pkg_command = 'pnpm add'
   end
-
-  pkg_command = 'pnpm add'
 
   # prevents default behavior for vite to generate `package-lock.json`
   run "touch #{pkg_manager}.lock"
@@ -61,7 +60,7 @@ after_bundle do
   # vite installer
   run "bundle exec vite install"
 
-  # yarn packages
+  # packages
   run "#{pkg_command} #{js_dev_packages.join(' ')}"
   run "#{pkg_command} #{js_packages.join(' ')}"
 
