@@ -1,19 +1,44 @@
 import React from 'react'
-import { Admin, Resource, LayoutProps, houseLightTheme } from 'react-admin'
+import { Admin, Resource } from 'react-admin'
 import { Auth } from '@groovestack/auth'
-import { HomeView, GroovestackLayout } from '@groovestack/config'
+import { GroovestackDash } from '@groovestack/config'
 import { Jobs } from '@groovestack/jobs'
 import { useAppInit } from './useAppInit'
-import { Box } from '@mui/material'
+
+const AdminResources = [
+  <Resource
+    name={Auth.Users.Name}
+    icon={Auth.Users.Icon}
+    list={Auth.Users.List}
+    show={Auth.Users.Show}
+    recordRepresentation={Auth.Users.Identifier}
+  />,
+  <Resource
+    name='Job'
+    icon={Jobs.Icon}
+    edit={Jobs.Edit}
+    list={Jobs.List}
+    recordRepresentation={Jobs.resourceRepresentation}
+  />,
+  <Resource name='Identity' />
+]
+
+const NonAdminResources = [
+  <Resource
+    name={Auth.Users.Name}
+    icon={Auth.Users.Icon}
+    show={Auth.Users.Show}
+    recordRepresentation={Auth.Users.Identifier}
+  />,
+  <Resource name='Identity' />
+]
 
 export const AdminApp = () => {
   const { loading: appLoading, authProvider, dataProvider } = useAppInit()
 
   if (appLoading) return <div>Loading...</div>
-  
-  const CustomLayout = (props: LayoutProps) => {
-    return <GroovestackLayout LayoutProps={props} AppBarProps={{userMenu: <Auth.Users.Menu />}} />
-  }
+
+  const renderResources = async (permissions: string[]) => permissions.includes('admin') ? AdminResources : NonAdminResources
   
   return (
     <Admin
@@ -21,25 +46,10 @@ export const AdminApp = () => {
       disableTelemetry
       authProvider={authProvider}
       dataProvider={dataProvider}
-      dashboard={HomeView}
-      layout={CustomLayout}
+      dashboard={GroovestackDash}
+      layout={Auth.RA.Layout}
       requireAuth
-      // theme={houseLightTheme}
     >
-    <Resource
-      name={Auth.Users.Name}
-      icon={Auth.Users.Icon}
-      list={Auth.Users.List}
-      show={Auth.Users.Show}
-      recordRepresentation={Auth.Users.Identifier}
-    />
-    <Resource
-      name='Job'
-      icon={Jobs.Icon}
-      edit={Jobs.Edit}
-      list={Jobs.List}
-      recordRepresentation={Jobs.resourceRepresentation}
-    />
-    <Resource name='Identity' />
-  </Admin>
+      {renderResources}
+    </Admin>
 )}
