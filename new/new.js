@@ -28,9 +28,13 @@ console.log("Node: ", nodeVersion);
 console.log("Ruby: ", rubyVersion);
 console.log("Rails: ", railsVersion);
 
-yarpm(['install']).then((result) => {
-  if (result.spawnArgs[0].includes('yarn')) {
+yarpm(['run']).then((result) => {
+  if (result.spawnArgs[0].includes('/yarn/')) {
     pkg_manager = 'yarn'
+  }
+
+  if (result.spawnArgs[0].includes('/npm/')) {
+    pkg_manager = 'npm'
   }
 
   let cmds = [
