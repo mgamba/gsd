@@ -1,5 +1,11 @@
 # create-groovestack
-create-groovestack is a utility that allows you to quickly bootstrap a new [Groovestack](https://talysto.com/tech/groovestack/) application.
+create-groovestack is a utility that allows you to quickly bootstrap a new [Groovestack](https://talysto.com/tech/groovestack/) application. It is powered by [Groovestack CORE](https://github.com/talysto/groovestack-core) modules
+* Base
+* Config
+* Auth 
+* Jobs 
+
+Please reference the Groovestack CORE [Documentation](https://github.com/talysto/groovestack-core) for module descriptions and configuration options.
 
 ### Getting Started
 
