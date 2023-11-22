@@ -6,11 +6,11 @@ const semver = require("semver");
 const directory = path.join(__dirname, "..");
 const { argv } = require("process");
 
-let pkg_manager = process.env.npm_execpath.includes('yarn') 
-  ? 'yarn' 
-  : process.env.npm_execpath.includes('pnpm') 
-    ? 'pnpm'
-    : 'npm' // default to npm
+let pkg_manager = 'npm' // default to npm
+if (process.env && process.env.npm_execpath) {
+  if (process.env.npm_execpath.includes('yarn')) pkg_manager = 'yarn'
+  else if (process.env.npm_execpath.includes('pnpm')) pkg_manager = 'pnpm'
+}
 
 if (!argv[2]) {
   argv[2] = "GroovestackDemoApp";
