@@ -20,7 +20,7 @@ end
 
 after_bundle do
 
-  pkg_manager = ARGV[1]
+  pkg_manager = ENV['PKG_MNG']
 
   case pkg_manager
   when 'pnpm'
