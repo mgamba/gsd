@@ -65,6 +65,7 @@ after_bundle do
   run "#{pkg_command} #{js_packages.join(' ')}"
 
   # config/application.rb
+  application "config.web_console.permissions = ['192.168.65.1', '127.0.0.0/24', '::1']"
   application "config.active_record.schema_format = :sql"
   application "config.active_job.queue_adapter = :que"
   application "config.action_cable.mount_path = '/cable'"
@@ -86,10 +87,17 @@ after_bundle do
 
   # config/vite.json
   gsub_file "config/vite.json", "app/javascript", "app/frontend"
+  inject_into_file 'config/vite.json', :after => /"development": {/ do
+    "\n    host: '0.0.0.0',\n"
+  end
 
   # config/initializers/inflections.rb addition
   insert_into_file "config/initializers/inflections.rb" do
     "ActiveSupport::Inflector.inflections(:en) do |inflect|\n\tinflect.acronym 'GraphQL'\nend"
+  end
+
+  inject_into_file 'config/database.yml', :after => "default: &default\n" do
+    "  username: postgres\n  password: <%= ENV['PG_PASSWORD'] || 'password' %>\n  host: <%= ENV['PG_HOST'] || 'localhost' %>\n"
   end
 
   # app/controllers/application_controller.rb addition
@@ -189,7 +197,7 @@ after_bundle do
 
   # Procfile.dev overwrite
   file "Procfile.dev", force: true do
-    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s -p 3000"
+    "vite: VITE_GQL_ENDPOINT=/graphql bin/vite dev\nweb: bin/rails s -b 0.0.0.0 -p 3000"
   end
 
   # # # Setup the DB initially
