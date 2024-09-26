@@ -86,7 +86,7 @@ after_bundle do
   FileUtils.cp("#{__dir__}/dev", "#{Dir.pwd}/bin/")
 
   # config/vite.json
-  gsub_file "config/vite.json", "app/javascript", "app/frontend"
+  #gsub_file "config/vite.json", "app/javascript", "app/frontend"
   #inject_into_file 'config/vite.json', :after => /"development": {/ do
   #  "\n    \"host\": \"0.0.0.0\","
   #end
