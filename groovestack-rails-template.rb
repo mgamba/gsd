@@ -57,6 +57,7 @@ after_bundle do
     react-dom
   ]
 
+  file_json = JSON.parse(File.read("#{__dir__}/new/file-config.json"))
   file_json.each do |fileRef|
     next unless fileRef["name"] == "vite.json"
 
@@ -118,8 +119,6 @@ after_bundle do
   inject_into_file 'app/channels/application_cable/connection.rb', :after => "ActionCable::Connection::Base\n" do
     "\t\tinclude Core::Auth::ActionCable::Connection\n"
   end
-
-  file_json = JSON.parse(File.read("#{__dir__}/new/file-config.json"))
 
   file_json.each do |fileRef|
     file_contents = File.read("#{__dir__}/#{fileRef["location"]}")
