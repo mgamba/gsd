@@ -87,9 +87,9 @@ after_bundle do
 
   # config/vite.json
   gsub_file "config/vite.json", "app/javascript", "app/frontend"
-  inject_into_file 'config/vite.json', :after => /"development": {/ do
-    "\n    \"host\": \"0.0.0.0\","
-  end
+  #inject_into_file 'config/vite.json', :after => /"development": {/ do
+  #  "\n    \"host\": \"0.0.0.0\","
+  #end
 
   # config/initializers/inflections.rb addition
   insert_into_file "config/initializers/inflections.rb" do
