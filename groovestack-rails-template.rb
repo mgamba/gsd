@@ -57,6 +57,16 @@ after_bundle do
     react-dom
   ]
 
+  file_json.each do |fileRef|
+    next unless fileRef["name"] == "vite.json"
+
+    file_contents = File.read("#{__dir__}/#{fileRef["location"]}")
+  
+    file "#{fileRef["write_location"]}" do
+      "#{file_contents}"
+    end
+  end
+
   # vite installer
   run "bundle exec vite install"
 
