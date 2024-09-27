@@ -57,10 +57,6 @@ after_bundle do
     react-dom
   ]
 
-  file "config/vite.json" do
-    File.read("#{__dir__}/new/components/ruby/config/vite.json")
-  end
-
   # vite installer
   run "bundle exec vite install"
 
@@ -135,6 +131,10 @@ after_bundle do
         adapter: 'postgresql',
       }
     }.to_yaml
+  end
+
+  file "config/vite.json", force: true do
+    File.read("#{__dir__}/new/components/ruby/config/vite.json")
   end
 
   # app/frontend/entrypoints/application.js overwrite
