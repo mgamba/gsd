@@ -7,33 +7,21 @@ create-groovestack is a utility that allows you to quickly bootstrap a new [Groo
 
 Please reference the Groovestack CORE [Documentation](https://github.com/talysto/groovestack-core) for module descriptions and configuration options.
 
-### Getting Started
+## Getting Started
 
-To get started, simply run the Groovestack Utility with the command
+### spin up a ruby container
+```
+docker compose run --rm -it -v `pwd`\:/usr/dev -p 3000\:3000 -p 3036\:3036 --build api /bin/sh
+```
 
-`yarn create groovestack $AppName` or
+### run the template
+```
+yarn global add https://github.com/mgamba/gsd && create-groovestack myapp
+cd myapp
+```
 
-`pnpm create groovestack $AppName` or
-
-`npm create groovestack@latest $AppName` or
-
-`npx create-groovestack@latest $AppName`
-
-<!-- ## Install Groovestack into an Existing App
-
-`cd` into the existing application and run
-
-`yarn upgrade groovestack`
-
-`pnpm upgrade groovestack`
-
-`npx upgrade-groovestack@latest` -->
-
-After the utility has completed, cd into the new Groovestack app's root directory
-
-`cd $AppName`
-
-and launch the Vite / Rails app
-
-`bin/dev`
+### start the servers
+```
+./bin/dev
+```
 

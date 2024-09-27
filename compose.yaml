@@ -1,0 +1,30 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3036:3036"
+    expose:
+      - "3000:3000"
+      - "3036:3036"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    environment:
+      PG_PASSWORD: password
+      PG_HOST: db
+      RAILS_ENV: development
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 2s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
