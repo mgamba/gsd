@@ -57,15 +57,8 @@ after_bundle do
     react-dom
   ]
 
-  file_json = JSON.parse(File.read("#{__dir__}/new/file-config.json"))
-  file_json.each do |fileRef|
-    next unless fileRef["name"] == "vite.json"
-
-    file_contents = File.read("#{__dir__}/#{fileRef["location"]}")
-  
-    file "#{fileRef["write_location"]}" do
-      "#{file_contents}"
-    end
+  file "config/vite.json" do
+    File.read("#{__dir__}/new/components/ruby/config/vite.json")
   end
 
   # vite installer
@@ -120,6 +113,7 @@ after_bundle do
     "\t\tinclude Core::Auth::ActionCable::Connection\n"
   end
 
+  file_json = JSON.parse(File.read("#{__dir__}/new/file-config.json"))
   file_json.each do |fileRef|
     file_contents = File.read("#{__dir__}/#{fileRef["location"]}")
   

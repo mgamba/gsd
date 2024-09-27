@@ -6,12 +6,6 @@
     "name": "groovestack.rb"
   },
   {
-    "location": "/new/components/ruby/config/vite.json",
-    "write_location": "config/vite.json",
-    "command": "write",
-    "name": "vite.json"
-  },
-  {
     "location": "/new/components/ruby/app/graphql/groovestack_schema.rb",
     "write_location": "app/graphql/groovestack_schema.rb",
     "command": "write",
